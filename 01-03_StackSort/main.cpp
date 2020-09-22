@@ -56,7 +56,6 @@ void StackSort(stack<T> &OriginalStack) {
 
 int main() {
     stack<int> UnSortedStack = stack<int>(deque<int> {1, 3, 2, 5, 4});
-    
     PrintStack(UnSortedStack);
     
     StackSort(UnSortedStack);
