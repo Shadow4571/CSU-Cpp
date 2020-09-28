@@ -32,11 +32,11 @@ bool CheckBracketExpression(string Expression) {
         }
     }
 
-    return true;
+    return LastOpen.empty();
 }
 
 int main() {
-    string Expression = string(")");
+    string Expression = string("(");
 
     cout << boolalpha << "Result: " << CheckBracketExpression(Expression);
 
