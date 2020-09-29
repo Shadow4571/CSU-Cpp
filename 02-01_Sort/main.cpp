@@ -6,6 +6,8 @@
 #include <ctime>
 #include <typeinfo>
 
+using std::stack;
+
 const int default_max_count = 50000;
 
 template <typename T>
@@ -185,15 +187,11 @@ void dumb_sort_stack(Stack &s)
 	move_stack(res, s);
 }
 
-template <typename Stack>
-void quick_sort_stack(Stack &s, bool IsStackM)
+template <class TStack>
+void quick_sort_stack(TStack &s, TStack L, TStack G, TStack E)
 {
 	if (s.size() <= 1)
 		return;
-    
-    Stack L = Stack(s.size());
-    Stack G = Stack(s.size());
-    Stack E = Stack(s.size());
     
 	auto e = s.top();
 	move_top(s, E);
@@ -208,8 +206,8 @@ void quick_sort_stack(Stack &s, bool IsStackM)
 			move_top(s, E);
 	}
     
-	quick_sort_stack(L);
-	quick_sort_stack(G);
+	quick_sort_stack(L, TStack(), TStack(), TStack());
+	quick_sort_stack(G, TStack(), TStack(), TStack());
     
 	move_stack(G, E);
 	move_stack(E, s);
@@ -217,11 +215,26 @@ void quick_sort_stack(Stack &s, bool IsStackM)
 	move_stack(G, s);
 }
 
+template <typename T>
+void quick_sort_stack(stackm<T> &s) {
+	quick_sort_stack(s, stackm<T>(s.size()), stackm<T>(s.size()), stackm<T>(s.size()));
+}
+
+template <typename T>
+void quick_sort_stack(stackl<T> &s) {
+	quick_sort_stack(s, stackl<T>(), stackl<T>(), stackl<T>());
+}
+
+template <typename T>
+void quick_sort_stack(stack<T> &s) {
+	quick_sort_stack(s, stack<T>(), stack<T>(), stack<T>());
+}
+
 template<typename T>
 std::string PrintStack(T &Stack) {
-    std::string Result = std::string("STACK:\n");
+    std::string Result = std::string("PRINT STACK:\n");
     
-    while(!Stack.empty()) {
+    while(Stack.size()) {
         Result += std::to_string(Stack.top()) + ' ';
         Stack.pop();
     }
@@ -254,9 +267,12 @@ int main()
 //		s.push(e);
 //	}
     srand(time(NULL));
-    stackm<int> StackArray = stackm<int>(200000);
-    //std::stack<int> StackArray = std::stack<int>();
-    for(int i = 0; i < 200000; i++) {
+
+    //stackm<int> StackArray = stackm<int>(100);
+	//stackl<int> StackArray = stackl<int>();
+    stack<int> StackArray = stack<int>();
+
+    for(int i = 0; i < 100; i++) {
         StackArray.push(rand() % 100 + 1);
     }
     
