@@ -5,6 +5,8 @@
 #include <iostream>
 #include <ctime>
 #include <typeinfo>
+#include <stdexcept>
+#include <type_traits>
 
 using std::stack;
 
@@ -165,33 +167,17 @@ bool EqualStacks(Stack &s1, Stack &s2)
 	return res;
 }
 
-template <typename Stack>
-void dumb_sort_stack(Stack &s)
-{
-	if (s.size() <= 1)
-		return;
-	Stack res, tmp;
-	while (s.size())
-	{
-		move_top(s, res);
-		while (s.size())
-			if (s.top() < res.top())
-			{
-				move_top(res, tmp);
-				move_top(s, res);
-			}
-			else
-				move_top(s, tmp);
-		move_stack(tmp, s);
-	}
-	move_stack(res, s);
-}
+/* ======================== */
+/* ==== SORT FUNCTIONS ==== */
 
-template <class TStack>
-void quick_sort_stack(TStack &s, TStack L, TStack G, TStack E)
-{
+template <typename T>
+void quick_sort_stack(stackm<T> &s, int Size) {
 	if (s.size() <= 1)
 		return;
+
+	stackm<T> L = stackm<T>(s.size());
+	stackm<T> E = stackm<T>(s.size());
+	stackm<T> G = stackm<T>(s.size());
     
 	auto e = s.top();
 	move_top(s, E);
@@ -205,9 +191,9 @@ void quick_sort_stack(TStack &s, TStack L, TStack G, TStack E)
 		else
 			move_top(s, E);
 	}
-    
-	quick_sort_stack(L, TStack(), TStack(), TStack());
-	quick_sort_stack(G, TStack(), TStack(), TStack());
+	
+	quick_sort_stack(L);
+	quick_sort_stack(G);
     
 	move_stack(G, E);
 	move_stack(E, s);
@@ -215,19 +201,38 @@ void quick_sort_stack(TStack &s, TStack L, TStack G, TStack E)
 	move_stack(G, s);
 }
 
-template <typename T>
-void quick_sort_stack(stackm<T> &s) {
-	quick_sort_stack(s, stackm<T>(s.size()), stackm<T>(s.size()), stackm<T>(s.size()));
-}
+template <class TStack, typename T>
+void quick_sort_stack(TStack &s)
+{
+	if (s.size() <= 1)
+		return;
 
-template <typename T>
-void quick_sort_stack(stackl<T> &s) {
-	quick_sort_stack(s, stackl<T>(), stackl<T>(), stackl<T>());
-}
+	if(std::is_same<TStack, stackm<T>>::value) {
+		throw std::invalid_argument("This stack class is not allowed in this function. Use quick_sort_stack(stackm<>, int)\n");
+	}
 
-template <typename T>
-void quick_sort_stack(stack<T> &s) {
-	quick_sort_stack(s, stack<T>(), stack<T>(), stack<T>());
+	TStack L, E, G;
+    
+	auto e = s.top();
+	move_top(s, E);
+    
+	while (s.size())
+	{
+		if (s.top() > e)
+			move_top(s, G);
+		else if (s.top() < e)
+			move_top(s, L);
+		else
+			move_top(s, E);
+	}
+	
+	quick_sort_stack<TStack, T>(L);
+	quick_sort_stack<TStack, T>(G);
+    
+	move_stack(G, E);
+	move_stack(E, s);
+	move_stack(L, G);
+	move_stack(G, s);
 }
 
 template<typename T>
@@ -242,65 +247,26 @@ std::string PrintStack(T &Stack) {
     return Result;
 }
 
-template <typename F>
-int exec_time(F f)
-{
-	auto start = GetTickCount();
-	f();
-	return GetTickCount() - start;
-}
-
 int main()
 {
-	//std::vector<int> numbers{ 12, 4, 5, 9, 1, 0, 7, 3, 8, 1, 2, 9, 7, 5, 3, 0, 6 };
-//	std::vector<int> numbers;
-//	for (int i = 0; i < 100; ++i)
-//		numbers.push_back(i);
-//
-//	stackm<int> sm;
-//	stackl<int> sl;
-//	std::stack<int> s;
-//	for (auto e : numbers)
-//	{
-//		sm.push(e);
-//		sl.push(e);
-//		s.push(e);
-//	}
     srand(time(NULL));
 
-    //stackm<int> StackArray = stackm<int>(100);
+    stackm<int> StackArray = stackm<int>(100);
 	//stackl<int> StackArray = stackl<int>();
-    stack<int> StackArray = stack<int>();
+    //stack<int> StackArray = stack<int>();	
 
     for(int i = 0; i < 100; i++) {
         StackArray.push(rand() % 100 + 1);
     }
     
-    quick_sort_stack(StackArray);
-    
-    std::cout << PrintStack(StackArray) << std::endl;
-    
-//	std::cout << "stackm: " << exec_time([&](){quick_sort_stack(StackArray); }) << std::endl;
-//	std::cout << "stackl: " << exec_time([&](){quick_sort_stack(sl); }) << std::endl;
-//	std::cout << "stack : " << exec_time([&](){quick_sort_stack(s); }) << std::endl;
-	
-	//quick_sort_stack(sm);
-	//quick_sort_stack(sl);
-	//quick_sort_stack(s);
+	try {
+    	quick_sort_stack<stackm<int>, int>(StackArray);
+	} catch(std::invalid_argument& Exp) {
+		std::cout << std::endl << "Error: " << Exp.what();
+	}
 
-	//std::cout << std::endl;
-	//while (sl.size())
-	//{
-	//	std::cout << sl.top() << " ";
-	//	sl.pop();
-	//}
-	//std::cout << std::endl;
-	//while (s.size())
-	//{
-	//	std::cout << s.top() << " ";
-	//	s.pop();
-	//}
-	//std::cout << std::endl;
+	std::cout << PrintStack(StackArray) << std::endl;
+
 	return 0;
 }
 
