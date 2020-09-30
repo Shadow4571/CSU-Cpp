@@ -192,8 +192,8 @@ void quick_sort_stack(stackm<T> &s, int Size) {
 			move_top(s, E);
 	}
 	
-	quick_sort_stack(L);
-	quick_sort_stack(G);
+	quick_sort_stack(L, L.size());
+	quick_sort_stack(G, G.size());
     
 	move_stack(G, E);
 	move_stack(E, s);
@@ -208,7 +208,8 @@ void quick_sort_stack(TStack &s)
 		return;
 
 	if(std::is_same<TStack, stackm<T>>::value) {
-		throw std::invalid_argument("This stack class is not allowed in this function. Use quick_sort_stack(stackm<>, int)\n");
+		quick_sort_stack(s, s.size());
+		return;
 	}
 
 	TStack L, E, G;
