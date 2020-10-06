@@ -31,11 +31,9 @@ void PrintPath(stack<int> Path) {
 bool CheckGraph(vector<vector<int>> AdjacencyMatrix) {
     int OddCount = 0;
 
-    for(int i = 0; i < AdjacencyMatrix.size(); i++) {
-        if(count(AdjacencyMatrix[i].begin(), AdjacencyMatrix[i].end(), 1) % 2 != 0 ) {
+    for(int i = 0; i < AdjacencyMatrix.size(); i++)
+        if(count(AdjacencyMatrix[i].begin(), AdjacencyMatrix[i].end(), 1) % 2 != 0 )
             OddCount++;
-        }
-    }
 
     return OddCount == 0 || OddCount == 2;
 }
