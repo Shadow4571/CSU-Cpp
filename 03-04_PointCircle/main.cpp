@@ -46,7 +46,7 @@ struct Point {
     }
 };
 
-vector<Point> convex_hull(const vector<Point> &P) {
+vector<Point> GetConvexHull(const vector<Point> &P) {
 	if (P.size() < 4)
 		return P;
 
@@ -94,11 +94,11 @@ void RemovePointFromSet(vector<Point> &SourceSet, const vector<Point> &Remove) {
     }
 }
 
-vector<vector<Point>> GetCirclePoint(vector<Point> PointSet) {
+vector<vector<Point>> GetCirclesFromPoints(vector<Point> PointSet) {
     vector<vector<Point>> Result = vector<vector<Point>>();
 
     while (!PointSet.empty()) {
-        Result.push_back(convex_hull(PointSet));
+        Result.push_back(GetConvexHull(PointSet));
         RemovePointFromSet(PointSet, Result[Result.size() - 1]);
     }
 
@@ -112,7 +112,7 @@ void PrintPointSet(const vector<Point> &PointSet) {
 
 int main() {
     vector<Point> PointSet = vector<Point>{Point(0, 0), Point(1, 0), Point(0, 1), Point(0, 3), Point(3, 1), Point(1, -4), Point(-4, 0), Point(2, 10), Point(8, 2), Point(7, -7), Point(-4, -6), Point(-10, -2), Point(-5, 7)};
-    vector<vector<Point>> Circles = GetCirclePoint(PointSet);
+    vector<vector<Point>> Circles = GetCirclesFromPoints(PointSet);
 
     for(int i = 0; i < Circles.size(); i++) {
         cout << endl << "Circle #" << i << endl;
