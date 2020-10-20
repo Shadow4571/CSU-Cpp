@@ -87,9 +87,14 @@ bool GetPointLocation(Area Polygon, Point A) {
 
 int main() {
     Area Polygon = Area( vector<Point>{Point(0, 0), Point(1, - 3), Point(3, -5), Point(6, -2), Point(5, 3), Point(2, 6), Point(1, 2)} );
-    vector<Point> PointSet = vector<Point>{Point(2, 0)};
+    vector<Point> PointSet = vector<Point>{Point(2, 0), Point(-10, 2)};
+    int Count = 0;
     
-    cout << boolalpha << GetPointLocation(Polygon, PointSet[0]);
+    for(Point Temp : PointSet)
+        if(GetPointLocation(Polygon, Temp))
+            Count++;
+    
+    cout << "Result: " << Count;
     
     return 0;
 }
