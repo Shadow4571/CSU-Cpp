@@ -24,16 +24,14 @@ bool IsSimpleNumber(int Number) {
     return true;
 }
 
-vector<int> FindAllSimpleNumbers(const vector<int> &Numbers) {
-    srand(time(NULL));
-    vector<int> Result;
+int FindAllSimpleNumbers(const vector<int> &Numbers) {
+    int Count = 0;
     
-    for(int Number : Numbers) {
+    for(int Number : Numbers)
         if(IsSimpleNumber(Number))
-            Result.push_back(Number);
-    }
+            Count++;
     
-    return Result;
+    return Count;
 }
 
 
@@ -43,10 +41,7 @@ int main() {
     for(int i = 0; i < 20000; i++)
         Numbers.push_back(i);
     
-    vector<int> Result = FindAllSimpleNumbers(Numbers);
-    
-    for(int Number : Result)
-        cout << Number << " ";
+    cout << "Result: " << FindAllSimpleNumbers(Numbers);
     
     return 0;
 }
