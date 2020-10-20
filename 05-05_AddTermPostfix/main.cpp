@@ -12,7 +12,7 @@ using namespace std;
 const vector<string> OPERATORS_TYPE {"+", "-", "*", "/", "^", "!"};
 const vector<string> OPEN_BRACKETS_TYPE {"("};
 const vector<string> CLOSE_BRACKETS_TYPE {")"};
-const vector<string> FUNCTIONS_TYPE {"sin", "cos", "tg", "ctg", "asin", "acos", "atg", "actg"};
+const vector<string> FUNCTIONS_TYPE {"sin", "cos", "tg", "ctg", "asin", "acos", "atg", "actg", "sqrt"};
 
 enum TermType {T_Var, T_Const, T_Op, T_Fun, T_Clbr, T_Opbr};
 enum TermPrio {P_Min = 0, P_Low = 1, P_Mid = 2, P_Hight = 3};
