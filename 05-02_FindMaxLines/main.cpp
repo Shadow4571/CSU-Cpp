@@ -76,7 +76,7 @@ int main() {
     //vector<Line> Lines = vector<Line>{Line(0, 2), Line(1, 5), Line(-2, -1), Line(6, 8), Line(4, 7), Line(10, 15), Line(9, 13)};
     //vector<Line> UnionLines = FindMaxLines(Lines);
     
-    vector<pair<double, double>> Lines = vector<pair<double, double>>{pair(0, 2), pair(1, 5), pair(-2, -1), pair(6, 8), pair(4, 7), pair(10, 15), pair(9, 13)};
+    vector<pair<double, double>> Lines = vector<pair<double, double>>{pair<double, double>(0, 2), pair<double, double>(1, 5), pair<double, double>(-2, -1), pair<double, double>(6, 8), pair<double, double>(4, 7), pair<double, double>(10, 15), pair<double, double>(9, 13)};
     vector<pair<double, double>> UnionLines = FindMaxLines(Lines);
     
     for(auto Temp : UnionLines)
