@@ -13,16 +13,16 @@ using namespace std;
 template<typename K, typename V>
 class binary_tree {
     private:
-    // Класс ноды дерева
+    // РљР»Р°СЃСЃ РЅРѕРґС‹ РґРµСЂРµРІР°
     class tree_node {
         private:
-        K Key;              // Ключ ноды по которому строится дерево
-        V Value;            // Значение в ноде по указанному ключу
-        tree_node *Left;    // Указатель на левую ноду
-        tree_node *Right;   // Указатель на правую ноду
+        K Key;              // РљР»СЋС‡ РЅРѕРґС‹ РїРѕ РєРѕС‚РѕСЂРѕРјСѓ СЃС‚СЂРѕРёС‚СЃСЏ РґРµСЂРµРІРѕ
+        V Value;            // Р—РЅР°С‡РµРЅРёРµ РІ РЅРѕРґРµ РїРѕ СѓРєР°Р·Р°РЅРЅРѕРјСѓ РєР»СЋС‡Сѓ
+        tree_node *Left;    // РЈРєР°Р·Р°С‚РµР»СЊ РЅР° Р»РµРІСѓСЋ РЅРѕРґСѓ
+        tree_node *Right;   // РЈРєР°Р·Р°С‚РµР»СЊ РЅР° РїСЂР°РІСѓСЋ РЅРѕРґСѓ
             
         public:
-        // Конструктор принимает ключ и значение для создание корневой ноды
+        // РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РїСЂРёРЅРёРјР°РµС‚ РєР»СЋС‡ Рё Р·РЅР°С‡РµРЅРёРµ РґР»СЏ СЃРѕР·РґР°РЅРёРµ РєРѕСЂРЅРµРІРѕР№ РЅРѕРґС‹
         tree_node(K Key, V Value) {
             this->Key = Key;
             this->Value = Value;
@@ -33,7 +33,7 @@ class binary_tree {
         K getKey() { return this->Key; }
         V getValue() { return this->Value; }
         
-        // Устанавливаем ноду слева
+        // РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј РЅРѕРґСѓ СЃР»РµРІР°
         bool setLeft(tree_node &Left) {
             if(this->Left != nullptr)
                 return false;
@@ -42,7 +42,7 @@ class binary_tree {
             return true;
         }
         
-        // Устанавливаем ноду справа
+        // РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј РЅРѕРґСѓ СЃРїСЂР°РІР°
         bool setRight(tree_node &Right) {
             if(this->Right != nullptr)
                 return false;
@@ -59,8 +59,8 @@ class binary_tree {
         }
     };
     
-    tree_node *Root;    // Корневая нода дерева
-    int Count;          // Количество нод в дереве
+    tree_node *Root;    // РљРѕСЂРЅРµРІР°СЏ РЅРѕРґР° РґРµСЂРµРІР°
+    int Count;          // РљРѕР»РёС‡РµСЃС‚РІРѕ РЅРѕРґ РІ РґРµСЂРµРІРµ
     
     public:
     binary_tree(K Key, V Value) {
@@ -70,7 +70,7 @@ class binary_tree {
     
     int getCount() { return this->Count; }
     
-    // Содержится ли ключ в дереве
+    // РЎРѕРґРµСЂР¶РёС‚СЃСЏ Р»Рё РєР»СЋС‡ РІ РґРµСЂРµРІРµ
     bool contains(const K &Key) {
         tree_node* Temp = this->Root;
         
@@ -89,7 +89,7 @@ class binary_tree {
         return false;
     }
     
-    // Содержится ли значение в дереве
+    // РЎРѕРґРµСЂР¶РёС‚СЃСЏ Р»Рё Р·РЅР°С‡РµРЅРёРµ РІ РґРµСЂРµРІРµ
     bool contains(const V &Value) {
         vector<V> Values = this->getAllValues();
         
@@ -100,7 +100,7 @@ class binary_tree {
         return false;
     }
     
-    // Добавить ноду в дерево
+    // Р”РѕР±Р°РІРёС‚СЊ РЅРѕРґСѓ РІ РґРµСЂРµРІРѕ
     bool add(const K &Key, const V &Value) {
         if(this->contains(Key))
             return false;
@@ -128,7 +128,7 @@ class binary_tree {
         }
     }
     
-    // Получить значение по ключу
+    // РџРѕР»СѓС‡РёС‚СЊ Р·РЅР°С‡РµРЅРёРµ РїРѕ РєР»СЋС‡Сѓ
     V find(const K &Key) {
         if(!this->contains(Key))
             throw "Cannot find element by key";
@@ -145,7 +145,7 @@ class binary_tree {
         return Temp->getValue();
     }
     
-    // Получить все значения из дерева
+    // РџРѕР»СѓС‡РёС‚СЊ РІСЃРµ Р·РЅР°С‡РµРЅРёСЏ РёР· РґРµСЂРµРІР°
     vector<V> getAllValues(vector<V> Values = vector<V>(), tree_node *Node = nullptr) {
         Node = Node == nullptr ? this->Root : Node;
         
