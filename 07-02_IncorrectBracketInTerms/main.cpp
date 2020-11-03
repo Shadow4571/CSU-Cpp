@@ -229,21 +229,21 @@ double calculate_postfix(vector<term> &terms)
 
 pair<string, map<string, double>> get_expressing_from_stream(istream &inp);
 
-// Метод находит лишние скобки в выражении термов
+// РњРµС‚РѕРґ РЅР°С…РѕРґРёС‚ Р»РёС€РЅРёРµ СЃРєРѕР±РєРё РІ РІС‹СЂР°Р¶РµРЅРёРё С‚РµСЂРјРѕРІ
 vector<pair<int, int>> FindIncorrectBrackets(const vector<term> &Terms) {
-    // Список скобок с их позициями в термах
+    // РЎРїРёСЃРѕРє СЃРєРѕР±РѕРє СЃ РёС… РїРѕР·РёС†РёСЏРјРё РІ С‚РµСЂРјР°С…
     vector<pair<int, int>> OpenAndClosedBrackets = vector<pair<int, int>>();
-    // Лишние скобки
+    // Р›РёС€РЅРёРµ СЃРєРѕР±РєРё
     vector<pair<int, int>> Result = vector<pair<int, int>>();
     
-    // Создаем список скобок и отмечаем позицию открытой скобки и закрытой
+    // РЎРѕР·РґР°РµРј СЃРїРёСЃРѕРє СЃРєРѕР±РѕРє Рё РѕС‚РјРµС‡Р°РµРј РїРѕР·РёС†РёСЋ РѕС‚РєСЂС‹С‚РѕР№ СЃРєРѕР±РєРё Рё Р·Р°РєСЂС‹С‚РѕР№
     for(int i = 0; i < Terms.size(); i++) {
-        // Если встречается открытая скобка, добавляем ее в список
+        // Р•СЃР»Рё РІСЃС‚СЂРµС‡Р°РµС‚СЃСЏ РѕС‚РєСЂС‹С‚Р°СЏ СЃРєРѕР±РєР°, РґРѕР±Р°РІР»СЏРµРј РµРµ РІ СЃРїРёСЃРѕРє
         if(Terms[i].type == t_opbr) {
             OpenAndClosedBrackets.push_back(pair<int, int>(i, -1));
         }
         
-        // Если встречается закрытая скобка ставим ее в пару первой свободной скобке, иначе создаем скобку без пары
+        // Р•СЃР»Рё РІСЃС‚СЂРµС‡Р°РµС‚СЃСЏ Р·Р°РєСЂС‹С‚Р°СЏ СЃРєРѕР±РєР° СЃС‚Р°РІРёРј РµРµ РІ РїР°СЂСѓ РїРµСЂРІРѕР№ СЃРІРѕР±РѕРґРЅРѕР№ СЃРєРѕР±РєРµ, РёРЅР°С‡Рµ СЃРѕР·РґР°РµРј СЃРєРѕР±РєСѓ Р±РµР· РїР°СЂС‹
         if(Terms[i].type == t_clbr) {
             bool Check = false;
             for(int j = OpenAndClosedBrackets.size() - 1; j > -1; j--) {
@@ -259,33 +259,33 @@ vector<pair<int, int>> FindIncorrectBrackets(const vector<term> &Terms) {
         }
     }
     
-    // Если список содержит одну запись и скобки в начале и конце, возвращаем их позицию
+    // Р•СЃР»Рё СЃРїРёСЃРѕРє СЃРѕРґРµСЂР¶РёС‚ РѕРґРЅСѓ Р·Р°РїРёСЃСЊ Рё СЃРєРѕР±РєРё РІ РЅР°С‡Р°Р»Рµ Рё РєРѕРЅС†Рµ, РІРѕР·РІСЂР°С‰Р°РµРј РёС… РїРѕР·РёС†РёСЋ
     if(OpenAndClosedBrackets.size() == 1)
         if(OpenAndClosedBrackets[0].first == 0 && OpenAndClosedBrackets[0].second == Terms.size() - 1)
             return OpenAndClosedBrackets;
     
-    // Проверяем правильность скобок
+    // РџСЂРѕРІРµСЂСЏРµРј РїСЂР°РІРёР»СЊРЅРѕСЃС‚СЊ СЃРєРѕР±РѕРє
     for(int i = 0; i < OpenAndClosedBrackets.size(); i++) {
-        // Если внутри скобок пусто или не хватает пары для скобки добавляем в список
+        // Р•СЃР»Рё РІРЅСѓС‚СЂРё СЃРєРѕР±РѕРє РїСѓСЃС‚Рѕ РёР»Рё РЅРµ С…РІР°С‚Р°РµС‚ РїР°СЂС‹ РґР»СЏ СЃРєРѕР±РєРё РґРѕР±Р°РІР»СЏРµРј РІ СЃРїРёСЃРѕРє
         if(OpenAndClosedBrackets[i].first == OpenAndClosedBrackets[i].second - 1 || OpenAndClosedBrackets[i].first == -1 || OpenAndClosedBrackets[i].second == -1) {
             Result.push_back(OpenAndClosedBrackets[i]);
             continue;
         }
         
-        // Если скобки вложенны внутрь других скобок без необходимости, например: 1+((1+1))
+        // Р•СЃР»Рё СЃРєРѕР±РєРё РІР»РѕР¶РµРЅРЅС‹ РІРЅСѓС‚СЂСЊ РґСЂСѓРіРёС… СЃРєРѕР±РѕРє Р±РµР· РЅРµРѕР±С…РѕРґРёРјРѕСЃС‚Рё, РЅР°РїСЂРёРјРµСЂ: 1+((1+1))
         if(Terms[OpenAndClosedBrackets[i].first - 1].type == t_opbr && Terms[OpenAndClosedBrackets[i].second + 1].type == t_clbr) {
             Result.push_back(OpenAndClosedBrackets[i]);
             continue;
         }
         
-        // Находим минимальный приоритет в скобках
+        // РќР°С…РѕРґРёРј РјРёРЅРёРјР°Р»СЊРЅС‹Р№ РїСЂРёРѕСЂРёС‚РµС‚ РІ СЃРєРѕР±РєР°С…
         int MinPrio = -1;
         for(int j = OpenAndClosedBrackets[i].first + 1; j < OpenAndClosedBrackets[i].second; j++) {
             if(Terms[j].type == t_op)
                 MinPrio = priority[Terms[j].name] < MinPrio || MinPrio == -1 ? priority[Terms[j].name] : MinPrio;
         }
         
-        // Если приоритет внутри скобок выше, чем вне скобок, скобки не нужны
+        // Р•СЃР»Рё РїСЂРёРѕСЂРёС‚РµС‚ РІРЅСѓС‚СЂРё СЃРєРѕР±РѕРє РІС‹С€Рµ, С‡РµРј РІРЅРµ СЃРєРѕР±РѕРє, СЃРєРѕР±РєРё РЅРµ РЅСѓР¶РЅС‹
         if(MinPrio != -1) {
             if(OpenAndClosedBrackets[i].first != 0) {
                 if(Terms[OpenAndClosedBrackets[i].first - 1].type == t_op)
