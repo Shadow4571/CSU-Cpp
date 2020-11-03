@@ -30,8 +30,6 @@ struct leaf {
     leaf(int position) {
         _pos = position;
     }
-    
-    const bool operator==(const leaf &t) const { return _pos == t._pos; }
 };
 
 vector<leaf> CreateTree(vector<pair<int, vector<int>>> &LeafSet) {
