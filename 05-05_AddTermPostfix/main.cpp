@@ -205,10 +205,51 @@ void PrintTerms(vector<Term> &Terms) {
     }
 }
 
+double CalculateFromTerms(vector<Term> Postfix) {
+    stack<double> Numbers = stack<double>();
+    stack<Term> Operators = stack<Term>();
+    double Result = 0;
+    
+    for(Term i : Postfix) {
+        if(i._type == T_Const) {
+            Numbers.push(stod(i._data.substr(0, 3)));
+        }
+        
+        if(i._type == T_Op) {
+            if(i._data == "+") {
+                double Temp = Numbers.top(); Numbers.pop();
+                Temp += Numbers.top(); Numbers.pop();
+                Numbers.push(Temp);
+            }
+            
+            if(i._data == "*") {
+                double Temp = Numbers.top(); Numbers.pop();
+                Temp *= Numbers.top(); Numbers.pop();
+                Numbers.push(Temp);
+            }
+            
+            if(i._data == "/") {
+                double Temp = Numbers.top(); Numbers.pop();
+                double Res = Numbers.top() / Temp; Numbers.pop();
+                Numbers.push(Res);
+            }
+            
+            if(i._data == "-") {
+                double Temp = -Numbers.top(); Numbers.pop();
+                Temp += Numbers.top(); Numbers.pop();
+                Numbers.push(Temp);
+            }
+        }
+    }
+    
+    return Numbers.top();
+}
+
 int main() {
     //string Expression = "a+3.1*sin(0.5)";
     //string Expression = "3+x*(2-y)/sin(0.35)";
-    string Expression = "sqrt(x)-1/2*sin(x^2-2)";
+    //string Expression = "1*3/0.1-1";
+    string Expression = to_string(1.0) + "*" + to_string(3.0) + "/" + to_string(0.1) + "-" + to_string(1.0);
     vector<Term> Terms = GetTermExpression(Expression);
     vector<Term> Postfix = GetPostfixFromTerms(Terms);
     
@@ -216,5 +257,8 @@ int main() {
     PrintTerms(Terms);
     cout << endl << "Postfix:" << endl;
     PrintTerms(Postfix);
+    
+    cout << endl << "Result: " << CalculateFromTerms(Postfix);
+    
     return 0;
 }
