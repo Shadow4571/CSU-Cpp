@@ -243,6 +243,13 @@ private:
             return result;
         }
         
+        vector<double> operator[](const int &i) {
+            if(!this->checkBounds(i, 0))
+                throw string("Index of bounds exception");
+            
+            return this->matrix[i];
+        }
+        
         // Вернуть строку матрицы по номеру
         vector<double> getRow(int i) {
             if (!checkBounds(i, 0))
@@ -340,6 +347,8 @@ int main() {
     cout << endl << matrix3.toString();
     cout << endl << matrix4.toString();
     cout << endl << matrix5.toString();
+    
+    cout << endl << matrix5[0][0] << " " << matrix5[1][0] << " " << matrix5[2][0] << endl;
     
     return 0;
 }
